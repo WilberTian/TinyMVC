@@ -51,6 +51,13 @@
     }
 
     #edit-todo-item {
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      text-align: center;
+      text-decoration: none;
+      line-height: 24px;
+      vertical-align: middle;
       color: white;
       background-color: #449f4d;
     }
@@ -70,7 +77,7 @@
     <div class="todo-item">
       <span><% this.title %></span>
       <input id='toggle-todo-item' type='button'></input>
-      <input id='edit-todo-item' type='button' value='Edit'></input>
+      <a id='edit-todo-item' href='#/edit'>Edit</a>
       <input id='delete-todo-item' type='button' value='Delete'></input>
     </div>
   </script>

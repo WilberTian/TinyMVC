@@ -60,3 +60,11 @@ TodoListView.include({
 
 
 var todoListView = TodoListView.instance({ model: TodoListModel });
+
+
+Router.init({ mode: 'hashchange'});
+
+Router
+.add(/edit/, function() {
+    console.log('edit');
+})

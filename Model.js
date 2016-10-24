@@ -127,6 +127,15 @@ Model.include({
         copy.newRecord = this.newRecord;
         return copy;
     },
+
+    value: function() {
+        var value = {};
+        for (var i=0; i < this._Klass.attributes.length; i++) {
+            var attr = this._Klass.attributes[i];
+            value[attr] = this[attr];
+        }
+        return value;
+    },
     
     create: function() {
         if(!this.id) {
@@ -140,11 +149,12 @@ Model.include({
     
     update: function() {
         this._Klass.records[this.id] = this.copy();
+        this.proxy(this._Klass.publish)('update');
     },
     
     updateAttributes: function(attributes){
         this.load(attributes);
-        return this.save();
+        return this.update();
     },
     
     destroy: function() {

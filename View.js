@@ -1,10 +1,6 @@
 var View = Klass.klass();
 
-View.extend(Pubsub);
-
 View.extend({
-    eventSplitter: /^(\S+)\s*(.*)$/,
-
     parseTemplate: function (html, data) {
         var re = /<%([^%>]+)?%>/g,
             reExp = /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g,
@@ -26,45 +22,19 @@ View.extend({
 
         add(html.substr(cursor, html.length - cursor));
         code += 'return r.join("");';
-        console.log(code)
+
         return new Function(code.replace(/[\r\t\n]/g, '')).apply(data);
-    },
-
-    delegateEvents: function () {
-        for (var key in this.events) {
-            var methodName = this.events[key];
-            var method = this[methodName];
-
-            var match = key.match(this.eventSplitter);
-            var eventName = match[1], selector = match[2];
-
-            console.log(selector, eventName, method)
-            if (selector === '') {
-                this.el.bind(eventName, method);
-            } else {
-                this.el.delegate("div", eventName, method);
-            }
-        }
-    },
-
-    bindModelListener: function() {
-        if('model' in this) {
-            var model = this['model'];
-            Pubsub.subscrib(model.name + '-updated', this.render);
-        }
-    },
-
-    $: function (selector) {
-        return $(selector, this.el);
     }
-
 });
-
 
 View.include({
     tag: 'div',
+    
+    eventSplitter: /^(\S+)\s*(.*)$/,
 
     init: function (options) {
+
+        console.log('call init')
         for (var key in options) {
             this[key] = options[key];
         }
@@ -72,33 +42,38 @@ View.include({
         if (!this.el) this.el = document.createElement(this.tag);
         this.el = $(this.el);
 
-        this._Klass.delegateEvents();
-        this._Klass.bindModelListener();
-
+        this.delegateEvents();
+        this.bindModelListener();
         this.render();
     },
 
-    render: function () {
+    delegateEvents: function () {
+        for (var key in this.events) {
+            var methodName = this.events[key];
+            var method = this.proxy(this[methodName]);
+
+            var match = key.match(this.eventSplitter);
+
+            var eventName = match[1], selector = match[2];
+
+            if (selector === '') {
+                this.el.bind(eventName, method);
+            } else {
+                this.el.delegate(selector, eventName, method);
+            }
+        }
+    },
+
+    bindModelListener: function() {
+        for (var key in this.listeners) {
+            var methodName = this.listeners[key];
+            var method = this.proxy(this[methodName]);
+
+            this.model.proxy(this.model._Klass.subscrib)(key, method);
+        }
+    },
+
+    render: function() {
+        return this;
     }
 });
-
-
-/*
-
-var b = View.instance({
-    events: {
-        "click div": "clickBodyHandler"
-    },
-
-    model: {name:'will'},
-
-    clickBodyHandler: function () {
-        console.log("body click!!!")
-    },
-
-    render: function () {
-        
-    }
-})
-
-*/

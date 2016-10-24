@@ -158,6 +158,7 @@ Model.include({
     },
     
     destroy: function() {
+        this.proxy(this._Klass.publish)('destroy');
         delete this._Klass.records[this.id];
     }
     

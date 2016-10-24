@@ -20,7 +20,8 @@ TodoItemView.include({
     },
 
     listeners: {
-        'update': 'render'
+        'update': 'render',
+        'destroy': 'remove'
     },
 
     toggleTodoItemHandler: function () {
@@ -29,15 +30,19 @@ TodoItemView.include({
     },
 
     deleteTodoItemHandler: function () {
+        this.model.destroy();
         console.log('delete item click!!!')
     },
 
     render: function () {
         this.el.html(TodoItemView.parseTemplate(this.templates.todoItemTemplate, this.model));
         this.el.toggleClass('completed-todo-item', this.model.status);
-        this.el.find('#toggle-todo-item').val(this.model.status?'close':'open');
+        this.el.find('#toggle-todo-item').val(this.model.status?'open':'close');
     }
 });
+
+
+
 
 var TodoListView = View.klass();
 

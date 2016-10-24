@@ -33,8 +33,6 @@ View.include({
     eventSplitter: /^(\S+)\s*(.*)$/,
 
     init: function (options) {
-
-        console.log('call init')
         for (var key in options) {
             this[key] = options[key];
         }
@@ -71,6 +69,11 @@ View.include({
 
             this.model.proxy(this.model._Klass.subscrib)(key, method);
         }
+    },
+
+    remove: function() {
+        //need to unbind events
+        this.el.remove();
     },
 
     render: function() {

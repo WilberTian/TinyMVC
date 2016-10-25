@@ -51,20 +51,61 @@ TodoListView.include({
 
     render: function () {
         var self = this;
+        self.el.empty();
         this.model.all().forEach(function (todo) {
             self.el.append(TodoItemView.instance({ model: todo }).el);
         });
 
     }
-})
+});
 
 
-var todoListView = TodoListView.instance({ model: TodoListModel });
+var TodoItemAddView = View.klass();
+
+TodoItemAddView.include({
+    el: $('#container'),
+
+    templates: {
+        todoItemAddTemplate: $('#add-todo-item-template').html()
+    },
+
+    render: function() {
+        this.el.html(TodoItemAddView.parseTemplate(this.templates.todoItemAddTemplate, this.model));
+    }
+
+});
+
+var TodoItemEditView = View.klass();
+
+TodoItemEditView.include({
+    el: $('#container'),
+
+    templates: {
+        todoItemEditTemplate: $('#edit-todo-item-template').html()
+    },
+
+    render: function() {
+        this.el.html(TodoItemEditView.parseTemplate(this.templates.todoItemEditTemplate, this.model));
+    }
+
+});
+
 
 
 Router.init({ mode: 'hashchange'});
 
 Router
 .add(/edit/, function() {
-    console.log('edit');
+    console.log('navigate to edit view');
+    TodoItemEditView.instance({model: {}});
 })
+.add(/add/, function() {
+    console.log('navigate to add view');
+    TodoItemAddView.instance({model: {}});
+})
+.add(/list/, function(){
+    console.log('navigate to list view');
+    TodoListView.instance({ model: TodoListModel });
+})
+
+Router.navigate('/list', true);

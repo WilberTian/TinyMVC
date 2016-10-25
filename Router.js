@@ -32,17 +32,20 @@ Router.extend({
         }
     },
 
-    navigate: function(path) {
+    // add a force option to force refresh
+    navigate: function(path, force) {
         path = path ? path : '';
         
         if(this.options.mode === 'history') {       
             history.pushState({}, document.title, this.options.root + this.clearSlashes(path));
             
-            // force to check the url here since pushState will not trigger popstate
-            this.checkUrl();
+            // explicitly check the url here since pushState will not trigger popstate
+            this.checkUrl(force);
         } else {        
             window.location.href = window.location.href.replace(/#(.*)$/, '') + '#' + path;
         }
+
+        if(force) this.checkUrl(force);
 
     },
     
@@ -86,10 +89,11 @@ Router.extend({
         return path.toString().replace(/\/$/, '').replace(/^\//, '');
     },
     
-    checkUrl: function() {       
+    checkUrl: function(force) {       
         var currentFragment = this.getFragment();
-
-        if(this.fragment === currentFragment) return;
+        console.log('currentFragment: ' + currentFragment)
+        
+        if(!force && this.fragment === currentFragment) return;
         
         this.match(currentFragment);
     },

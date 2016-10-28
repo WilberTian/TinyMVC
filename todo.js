@@ -16,6 +16,7 @@ TodoItemView.include({
 
     events: {
         'click #toggle-todo-item': 'toggleTodoItemHandler',
+        'click #edit-todo-item': 'editTodoItemHandler',
         'click #delete-todo-item': 'deleteTodoItemHandler'
     },
 
@@ -26,7 +27,12 @@ TodoItemView.include({
 
     toggleTodoItemHandler: function () {
         this.model.updateAttributes({status: !this.model.status});
-        console.log('complete item click!!!')
+        console.log('toggle item click!!!')
+    },
+
+    editTodoItemHandler: function() {
+
+        console.log('edit item click!!!')
     },
 
     deleteTodoItemHandler: function () {
@@ -42,16 +48,16 @@ TodoItemView.include({
 });
 
 
-
-
 var TodoListView = View.klass();
 
 TodoListView.include({
-    el: $('#container'),
+    el: $('#app-content'),
 
     render: function () {
         var self = this;
         self.el.empty();
+        self.el.append('<a id="add-todo-item" href="#/create">+</a>');
+        
         this.model.all().forEach(function (todo) {
             self.el.append(TodoItemView.instance({ model: todo }).el);
         });
@@ -60,17 +66,17 @@ TodoListView.include({
 });
 
 
-var TodoItemAddView = View.klass();
+var TodoItemCreateView = View.klass();
 
-TodoItemAddView.include({
-    el: $('#container'),
+TodoItemCreateView.include({
+    el: $('#app-content'),
 
     templates: {
-        todoItemAddTemplate: $('#add-todo-item-template').html()
+        todoItemCreateTemplate: $('#create-todo-item-template').html()
     },
 
     render: function() {
-        this.el.html(TodoItemAddView.parseTemplate(this.templates.todoItemAddTemplate, this.model));
+        this.el.html(TodoItemCreateView.parseTemplate(this.templates.todoItemCreateTemplate, this.model));
     }
 
 });
@@ -78,14 +84,28 @@ TodoItemAddView.include({
 var TodoItemEditView = View.klass();
 
 TodoItemEditView.include({
-    el: $('#container'),
+    el: $('#app-content'),
 
     templates: {
         todoItemEditTemplate: $('#edit-todo-item-template').html()
     },
 
+    events: {
+        'click #save-todo-item': 'saveTodoItemHandler',
+        'click #cancel-edit-btn': 'cancelEditHandler'
+    },
+
+    saveTodoItemHandler: function() {
+
+    },
+
+    cancelEditHandler: function() {
+
+    },
+
     render: function() {
         this.el.html(TodoItemEditView.parseTemplate(this.templates.todoItemEditTemplate, this.model));
+        this.el.find('#edit-todo-item-status').val(this.model.status.toString());
     }
 
 });
@@ -95,17 +115,21 @@ TodoItemEditView.include({
 Router.init({ mode: 'hashchange'});
 
 Router
-.add(/edit/, function() {
+.add(/edit\/(.*)/, function() {
     console.log('navigate to edit view');
-    TodoItemEditView.instance({model: {}});
+    TodoItemEditView.instance({model: TodoListModel.find(arguments[1])});
 })
-.add(/add/, function() {
-    console.log('navigate to add view');
-    TodoItemAddView.instance({model: {}});
+.add(/create/, function() {
+    console.log('navigate to create view');
+    TodoItemCreateView.instance({model: {}});
 })
 .add(/list/, function(){
     console.log('navigate to list view');
     TodoListView.instance({ model: TodoListModel });
+})
+.add(function(){
+    console.log('navigate to default view');
+    Router.navigate('/list', true);
 })
 
 Router.navigate('/list', true);

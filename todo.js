@@ -75,6 +75,19 @@ TodoItemCreateView.include({
         todoItemCreateTemplate: $('#create-todo-item-template').html()
     },
 
+    events: {
+        'click #create-todo-item': 'createTodoItemHandler',
+        'click #cancel-create-btn': 'cancelCreateHandler'
+    },
+
+    createTodoItemHandler: function() {
+        
+    },
+
+    cancelCreateHandler: function() {
+        Router.navigate('/list');
+    },
+
     render: function() {
         this.el.html(TodoItemCreateView.parseTemplate(this.templates.todoItemCreateTemplate, this.model));
     }
@@ -100,7 +113,7 @@ TodoItemEditView.include({
     },
 
     cancelEditHandler: function() {
-
+        Router.navigate('/list');
     },
 
     render: function() {

@@ -111,30 +111,3 @@ Router.extend({
         return this;
     }
 });
-
-
-
-/*
-
-// configuration
-Router.init({ mode: 'history'});
-
-
-// adding routes
-Router
-.add(/about/, function() {
-    console.log('about');
-})
-.add(/products\/(.*)\/edit\/(.*)/, function() {
-    console.log('products', arguments);
-})
-.add(function() {
-    console.log('default');
-})
-
-
-// forwarding
-Router.navigate('/about');
-
-
-*/

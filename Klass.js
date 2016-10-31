@@ -56,3 +56,5 @@ var Klass = {
 
 Klass.fn = Klass.instancePrototype;
 Klass.fn.proxy = Klass.proxy;
+
+Klass.extend(Pubsub);

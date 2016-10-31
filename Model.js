@@ -1,16 +1,13 @@
 var Model = Klass.klass();
 
-
-Model.guid = function(){
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-        return v.toString(16);
-    }).toUpperCase();      
-};
-
-Model.extend(Pubsub);
-
 Model.extend({
+    guid: function(){
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+            return v.toString(16);
+        }).toUpperCase();      
+    },
+
     setup: function(name, attributes) {
         var model = Model.klass();
         if(name) model.name = name;
@@ -159,6 +156,9 @@ Model.include({
     
     destroy: function() {
         this.proxy(this._Klass.publish)('destroy');
+        
+        // remove all model listeners
+        this.proxy(this._Klass.unsubscrib)();
         delete this._Klass.records[this.id];
     }
     

@@ -72,7 +72,6 @@ View.include({
     },
 
     remove: function() {
-        //need to unbind events
         this.el.remove();
     },
 

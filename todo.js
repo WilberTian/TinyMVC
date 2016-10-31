@@ -81,7 +81,15 @@ TodoItemCreateView.include({
     },
 
     createTodoItemHandler: function() {
-        
+        console.log('create item click!!!');
+
+        var title = this.el.find('#create-todo-item-title').val();
+        var description = this.el.find('#create-todo-item-description').val();
+        var status = (this.el.find('#create-todo-item-status').val() === 'true');
+
+        TodoListModel.create({'title': title, 'description': description, 'status': status});
+
+        Router.navigate('/list');
     },
 
     cancelCreateHandler: function() {
@@ -109,7 +117,15 @@ TodoItemEditView.include({
     },
 
     saveTodoItemHandler: function() {
+        console.log('save item click!!!');
 
+        var title = this.el.find('#edit-todo-item-title').val();
+        var description = this.el.find('#edit-todo-item-description').val();
+        var status = (this.el.find('#edit-todo-item-status').val() === 'true');
+
+        this.model.updateAttributes({'title': title, 'description': description, 'status': status});
+
+        Router.navigate('/list');
     },
 
     cancelEditHandler: function() {

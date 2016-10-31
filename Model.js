@@ -51,10 +51,10 @@ Model.extend({
     
     create: function(attributes) {
         var newRecord = this.instance();
-        console.log(this)
+        
         newRecord.init(attributes);
         newRecord.create();
-        
+
         return newRecord;
     },
     

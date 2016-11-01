@@ -6,7 +6,7 @@ TodoListModel.create({ 'title': 'read html book', 'status': false });
 TodoListModel.create({ 'title': 'read css book', 'status': false });
 TodoListModel.create({ 'title': 'read python book', 'status': false });
 
-var TodoItemView = View.klass();
+var TodoItemView = View.subKlass();
 
 TodoItemView.include({
     
@@ -48,7 +48,7 @@ TodoItemView.include({
 });
 
 
-var TodoListView = View.klass();
+var TodoListView = View.subKlass();
 
 TodoListView.include({
     el: $('#app-content'),
@@ -66,7 +66,7 @@ TodoListView.include({
 });
 
 
-var TodoItemCreateView = View.klass();
+var TodoItemCreateView = View.subKlass();
 
 TodoItemCreateView.include({
     el: $('#app-content'),
@@ -102,7 +102,7 @@ TodoItemCreateView.include({
 
 });
 
-var TodoItemEditView = View.klass();
+var TodoItemEditView = View.subKlass();
 
 TodoItemEditView.include({
     el: $('#app-content'),

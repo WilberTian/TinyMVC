@@ -1,4 +1,4 @@
-var Model = Klass.klass();
+var Model = Klass.subKlass();
 
 Model.extend({
     guid: function(){
@@ -9,7 +9,7 @@ Model.extend({
     },
 
     setup: function(name, attributes) {
-        var model = Model.klass();
+        var model = Model.subKlass();
         if(name) model.name = name;
         if(attributes) model.attributes = attributes;
         

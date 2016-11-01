@@ -6,15 +6,15 @@ var Klass = {
 		construct: function() {}
 	},
 	
-	klass: function() {
-		var object = Object.create(this);
-		object._Super = this;
+	subKlass: function() {
+		var klass = Object.create(this);
+		klass._Super = this;
 		// Klass init function
-		object.init.apply(object, arguments);
+		klass.init.apply(klass, arguments);
 
-		object.instancePrototype = Object.create(this.instancePrototype);
+		klass.instancePrototype = Object.create(this.instancePrototype);
 
-		return object;
+		return klass;
 	},
 	
 	instance: function() {
@@ -36,7 +36,7 @@ var Klass = {
 	},
 	
 	include: function(object) {
-		
+		// add props for instance
 		delete object.include;
 		delete object.extend;
 		
@@ -47,7 +47,7 @@ var Klass = {
 	},
 	
 	extend: function(object) {
-	
+		// add props for klass
 		delete object.include;
 		delete object.extend;
 		

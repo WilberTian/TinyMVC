@@ -1,4 +1,4 @@
-var View = Klass.klass();
+var View = Klass.subKlass();
 
 View.extend({
     parseTemplate: function (html, data) {

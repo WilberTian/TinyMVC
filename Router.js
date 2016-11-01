@@ -1,5 +1,5 @@
 
-var Router = Klass.klass();
+var Router = Klass.subKlass();
 
 Router.extend({
     routes: [],

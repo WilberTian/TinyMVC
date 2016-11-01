@@ -3,12 +3,13 @@ var Klass = {
 	init: function() {},
 	
 	instancePrototype: {
-		init: function() {}
+		construct: function() {}
 	},
 	
 	klass: function() {
 		var object = Object.create(this);
 		object._Super = this;
+		// Klass init function
 		object.init.apply(object, arguments);
 
 		object.instancePrototype = Object.create(this.instancePrototype);
@@ -19,7 +20,11 @@ var Klass = {
 	instance: function() {
 		var instance = Object.create(this.instancePrototype);
 		instance._Klass = this;
-		instance.init.apply(instance, arguments);
+
+		// call the construct of Super Klass
+		instance._Klass._Super.instancePrototype.construct.apply(instance, arguments);
+
+		instance.construct.apply(instance, arguments);
 		return instance;
 	},
 	

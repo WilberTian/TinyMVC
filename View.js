@@ -32,7 +32,7 @@ View.include({
     
     eventSplitter: /^(\S+)\s*(.*)$/,
 
-    init: function (options) {
+    construct: function (options) {
         for (var key in options) {
             this[key] = options[key];
         }
@@ -41,7 +41,6 @@ View.include({
         this.el = $(this.el);
 
         this.delegateEvents();
-        this.bindModelListener();
         this.render();
     },
 
@@ -59,15 +58,6 @@ View.include({
             } else {
                 this.el.delegate(selector, eventName, method);
             }
-        }
-    },
-
-    bindModelListener: function() {
-        for (var key in this.listeners) {
-            var methodName = this.listeners[key];
-            var method = this.proxy(this[methodName]);
-
-            this.model.proxy(this.model._Klass.subscrib)(key, method);
         }
     },
 

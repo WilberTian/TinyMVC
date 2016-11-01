@@ -10,6 +10,11 @@ var TodoItemView = View.klass();
 
 TodoItemView.include({
     
+    construct: function(){
+        this.model.proxy(TodoItemView.subscribe)('update', this.proxy(this.render));
+        this.model.proxy(TodoItemView.subscribe)('destroy', this.proxy(this.remove));
+    },
+    
     templates: {
         todoItemTemplate: $('#todo-item-template').html()
     },
@@ -18,11 +23,6 @@ TodoItemView.include({
         'click #toggle-todo-item': 'toggleTodoItemHandler',
         'click #edit-todo-item': 'editTodoItemHandler',
         'click #delete-todo-item': 'deleteTodoItemHandler'
-    },
-
-    listeners: {
-        'update': 'render',
-        'destroy': 'remove'
     },
 
     toggleTodoItemHandler: function () {

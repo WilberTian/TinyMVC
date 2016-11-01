@@ -16,10 +16,15 @@ Model.extend({
         return model;
     },
     
+    records: {},
+    attributes: [],
+
+    /*
     init: function() {
         this.records = {};
         this.attributes = [];
     }, 
+    */
     
     find: function(id) {
         var found = this.records[id];
@@ -49,7 +54,7 @@ Model.extend({
     create: function(attributes) {
         var newRecord = this.instance();
         
-        newRecord.init(attributes);
+        newRecord.construct(attributes);
         newRecord.create();
 
         return newRecord;
@@ -91,7 +96,7 @@ Model.include({
 
     newRecord: true,
     
-    init: function(attributes) {
+    construct: function(attributes) {
         if(attributes) {
             this.load(attributes);
         }
@@ -158,7 +163,7 @@ Model.include({
         this.proxy(this._Klass.publish)('destroy');
         
         // remove all model listeners
-        this.proxy(this._Klass.unsubscrib)();
+        this.proxy(this._Klass.unsubscribe)();
         delete this._Klass.records[this.id];
     }
     

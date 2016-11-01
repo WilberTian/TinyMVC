@@ -1,12 +1,12 @@
 var Pubsub = {
-	subscrib: function(ev, callback) {
+	subscribe: function(ev, callback) {
 		this._callbacks || (this._callbacks = {});
 		(this._callbacks[ev] || (this._callbacks[ev] = [])).push(callback);
 		
 		return this;		
 	},
     
-    unsubscrib: function(ev, callback) {
+    unsubscribe: function(ev, callback) {
         if(!ev) {
             this._callbacks = {};
             return this;

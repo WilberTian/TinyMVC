@@ -11,6 +11,7 @@ var TodoItemView = View.subKlass();
 TodoItemView.include({
     
     construct: function(){
+        this._Klass._Super.instancePrototype.construct.apply(this, arguments)
         this.model.proxy(TodoItemView.subscribe)('update', this.proxy(this.render));
         this.model.proxy(TodoItemView.subscribe)('destroy', this.proxy(this.remove));
     },

@@ -22,7 +22,7 @@ var Klass = {
 		instance._Klass = this;
 
 		// call the construct of Super Klass
-		instance._Klass._Super.instancePrototype.construct.apply(instance, arguments);
+		//instance._Klass._Super.instancePrototype.construct.apply(instance, arguments);
 
 		instance.construct.apply(instance, arguments);
 		return instance;
